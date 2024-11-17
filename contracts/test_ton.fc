@@ -1,7 +1,7 @@
 #include "imports/stdlib.fc";
 
 const op::increase = "op::increase"c; ;; create an opcode from string using the "c" prefix, this results in 0x7e8764ef opcode in this case
-
+const op::decrease = "op::decrease"c;
 ;; storage variables
 
 ;; id is required to be able to create different instances of counters
@@ -49,6 +49,12 @@ global int ctx_counter;
     if (op == op::increase) {
         int increase_by = in_msg_body~load_uint(32);
         ctx_counter += increase_by;
+        save_data();
+        return ();
+
+    } else {
+        int decrease_by = in_msg_body~load_uint(32);
+        ctx_counter -= decrease_by;
         save_data();
         return ();
     }
